@@ -359,8 +359,8 @@
         <!-- jhipster-needle-maven-add-dependency -->
         
         <dependency>
-            <groupId>com.alipay.api</groupId>
-            <artifactId>alipay-sdk-java</artifactId>
+            <groupId>taobao.com</groupId>
+            <artifactId>alipay</artifactId>
             <version>3.0.0</version>
         </dependency>
         
@@ -646,6 +646,15 @@
             </plugins>
         </pluginManagement>
     </build>
+    
+    <!-- 仓库管理 -->
+	<repositories>
+		<repository>
+			<id>eyun-nexus</id>
+			<url>http://dev.eyun.online:8081/repository/maven-releases</url>
+		</repository>
+	</repositories>
+    
     <profiles>
         <profile>
             <id>no-liquibase</id>
