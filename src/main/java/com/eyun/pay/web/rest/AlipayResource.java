@@ -6,12 +6,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +27,9 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.eyun.pay.domain.AlipayVM;
 import com.eyun.pay.service.OrderService;
 
@@ -87,7 +93,7 @@ public class AlipayResource {
 		model.setTotalAmount(alipayVM.getTotalAmount());
 		model.setPassbackParams(alipayVM.getPassbackParams());
 		request.setBizModel(model);
-		request.setNotifyUrl(DOMAIN_NAME+"/pay/api/alipay/app/notify");
+		request.setNotifyUrl(DOMAIN_NAME+"/alipay/app/notify");
 		//request.setNeedEncrypt(true);
         //这里和普通的接口调用不同，使用的是sdkExecute
         AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
@@ -103,6 +109,7 @@ public class AlipayResource {
 	 * @return
 	 * @throws AlipayApiException 
 	 */
+	@PostMapping("/alipay/app/notify")
 	public String alipayNotify (HttpServletRequest request) throws AlipayApiException {
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -130,6 +137,32 @@ public class AlipayResource {
 			return "success";
 		} else {
 			return "failure";
+		}
+	}
+	
+	/**
+	 * 查询支付宝订单
+	 * @author 逍遥子
+	 * @email 756898059@qq.com
+	 * @date 2018年4月8日
+	 * @version 1.0
+	 * @param orderNo
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/alipay/order/{orderNo}")
+	public ResponseEntity<String> queryOrder (@PathVariable String orderNo) throws Exception {
+		//实例化客户端
+		AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA2", ENCRYPT_KEY, NCRYPT_TYPE);
+		AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("out_trade_no", orderNo);
+		request.setBizContent(jsonObject.toString());
+		AlipayTradeQueryResponse response = alipayClient.execute(request);
+		if (response.isSuccess()) {
+			return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("", HttpStatus.OK);
 		}
 	}
 	
