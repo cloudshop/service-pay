@@ -93,7 +93,7 @@ public class AlipayResource {
 		model.setTotalAmount(alipayVM.getTotalAmount());
 		model.setPassbackParams(alipayVM.getPassbackParams());
 		request.setBizModel(model);
-		request.setNotifyUrl(DOMAIN_NAME+"/alipay/app/notify");
+		request.setNotifyUrl(DOMAIN_NAME+"/pay/api/alipay/app/notify");
 		//request.setNeedEncrypt(true);
         //这里和普通的接口调用不同，使用的是sdkExecute
         AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
@@ -124,17 +124,21 @@ public class AlipayResource {
 		  	}
 		    //乱码解决，这段代码在出现乱码时使用。
 			//valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+		    System.out.println(name+":"+valueStr);
 			params.put(name, valueStr);
-			System.out.println("name:"+name+"value:"+valueStr);
 		}
-		System.out.println(params.toString());
-		System.out.println("------------------------------------");
 		//切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
 		//boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
 		boolean flag = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET,"RSA2");
-		System.out.println(flag);
-		if (flag) {
-			return "success";
+		if (flag) {//验签成功 执行回调
+			String passbackParams = params.get("passback_params");
+			System.out.println(passbackParams);
+			switch (passbackParams) {
+			case "deposit": //充值订单
+				return orderService.depositNotify(params.get("out_trade_no"));
+			default:
+				return "failure";
+			}
 		} else {
 			return "failure";
 		}
