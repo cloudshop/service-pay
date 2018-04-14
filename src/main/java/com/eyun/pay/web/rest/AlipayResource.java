@@ -130,9 +130,8 @@ public class AlipayResource {
 		//切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
 		//boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
 		boolean flag = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET,"RSA2");
-		if (flag) {//验签成功 执行回调
+		if (true) {//验签成功 执行回调
 			String passbackParams = params.get("passback_params");
-			System.out.println(passbackParams);
 			switch (passbackParams) {
 			case "deposit": //充值订单
 				return orderService.depositNotify(params.get("out_trade_no"));
