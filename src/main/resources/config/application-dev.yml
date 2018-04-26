@@ -79,6 +79,15 @@ spring:
 
 liquibase:
     contexts: dev
+    
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 10000
+                timeout: enabled
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
