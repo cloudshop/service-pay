@@ -30,8 +30,10 @@ import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.codahale.metrics.annotation.Timed;
 import com.eyun.pay.domain.AlipayVM;
 import com.eyun.pay.service.OrderService;
+import com.eyun.pay.service.dto.PayNotifyDTO;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -110,6 +112,7 @@ public class AlipayResource {
 	 * @throws AlipayApiException 
 	 */
 	@PostMapping("/alipay/app/notify")
+	@Timed
 	public String alipayNotify (HttpServletRequest request) throws AlipayApiException {
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -135,6 +138,15 @@ public class AlipayResource {
 			switch (passbackParams) {
 			case "deposit": //充值订单
 				return orderService.depositNotify(params.get("out_trade_no"));
+			case "product": //商品订单
+				PayNotifyDTO payNotifyDTO = new PayNotifyDTO();
+				payNotifyDTO.setOrderNo(params.get("out_trade_no"));
+				payNotifyDTO.setPayType(1);
+				payNotifyDTO.setPayNo(params.get("trade_no"));
+				orderService.proOrderNotify(payNotifyDTO);
+				return "success";
+			case "leaguer": //增值商家
+				//TODO 待通知
 			default:
 				return "failure";
 			}
