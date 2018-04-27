@@ -70,6 +70,9 @@ public class AlipayResource {
 	
 	private String NCRYPT_TYPE = "AES";
 	
+	@Value("${application.pay.alipay.gateway}")
+	private String GATEWAY;
+	
 	/**
 	 * @author 逍遥子
 	 * @email 756898059@qq.com
@@ -83,7 +86,7 @@ public class AlipayResource {
 	@PostMapping("/alipay/app/orderString")
 	public String createAlipayAppOrder (@RequestBody AlipayVM alipayVM) throws AlipayApiException {
 		//实例化客户端
-		AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA2", ENCRYPT_KEY, NCRYPT_TYPE);
+		AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY, APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA2", ENCRYPT_KEY, NCRYPT_TYPE);
 		//实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
 		AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
 		//SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。

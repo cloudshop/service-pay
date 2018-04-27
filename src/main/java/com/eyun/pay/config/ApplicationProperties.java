@@ -37,6 +37,8 @@ public class ApplicationProperties {
 			private String aesKey;
 			
 			private String domainName;
+			
+			private String gateway;
 
 			public String getDomainName() {
 				return domainName;
@@ -76,6 +78,14 @@ public class ApplicationProperties {
 
 			public void setAppPublicKey(String appPublicKey) {
 				this.appPublicKey = appPublicKey;
+			}
+
+			public String getGateway() {
+				return gateway;
+			}
+
+			public void setGateway(String gateway) {
+				this.gateway = gateway;
 			}
 			
 		}
