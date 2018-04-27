@@ -191,7 +191,7 @@ oauth2:
 application:
     pay:
         alipay:
-        	# 沙箱环境
+            # 沙箱环境
             appid: 2016091000480719
             gateway: https://openapi.alipaydev.com/gateway.do
             domainName: http://cloud.eyun.online:9080
