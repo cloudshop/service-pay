@@ -1,9 +1,12 @@
 package com.eyun.pay.test;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import org.json.JSONObject;
 import org.junit.Test;
+import org.springframework.web.client.RestTemplate;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -68,4 +71,39 @@ public class PayTest {
 			e.printStackTrace();
 		}
 	}
+	
+	//微信支付测试
+	@Test
+	public void fun3() {
+		try {
+			//RestTemplate restTemplate = new RestTemplate();
+			String str1 = "appid=wx951d7848326848f0"
+					+"&attach=支付测试"
+					+"&body=APP支付测试"
+					+"&mch_id=1490382052"
+					+"&nonce_str=5K8264ILTKCH16CQ2502SI8ZNMTM67VS"
+					+"&notify_url=http://www.baidu.com"
+					+"&out_trade_no=123457"
+					+"&total_fee=1"
+					+"&trade_type=APP"
+					+"&key=duopaiApp20171017104400101010101";
+			byte[] bytes = str1.getBytes();
+			char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+				MessageDigest mdTemp = MessageDigest.getInstance("MD5");
+				mdTemp.update(bytes);
+				byte[] md = mdTemp.digest();
+				int j = md.length;
+				char str[] = new char[j * 2];
+				int k = 0;
+				for (int i = 0; i < j; i++) {
+					byte byte0 = md[i];
+					str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+					str[k++] = hexDigits[byte0 & 0xf];
+				}
+			System.out.println(new String(str).toUpperCase());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

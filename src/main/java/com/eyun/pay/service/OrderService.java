@@ -17,4 +17,7 @@ public interface OrderService {
 	@PutMapping("/api/pro-order/pay/notify")
     public ResponseEntity proOrderNotify(@RequestBody PayNotifyDTO payNotifyDTO);
 	
+	@PutMapping("/api/leaguer-order/pay/notify")
+	public ResponseEntity leaguerOrderNotify(@RequestBody PayNotifyDTO payNotifyDTO);
+	
 }

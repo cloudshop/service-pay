@@ -146,7 +146,12 @@ public class AlipayResource {
 				orderService.proOrderNotify(payNotifyDTO);
 				return "success";
 			case "leaguer": //增值商家
-				//TODO 待通知
+				PayNotifyDTO payDTO = new PayNotifyDTO();
+				payDTO.setOrderNo(params.get("out_trade_no"));
+				payDTO.setPayType(1);
+				payDTO.setPayNo(params.get("trade_no"));
+				orderService.leaguerOrderNotify(payDTO);
+				return "success";
 			default:
 				return "failure";
 			}
