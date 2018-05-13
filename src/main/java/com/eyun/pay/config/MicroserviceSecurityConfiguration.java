@@ -44,6 +44,7 @@ public class MicroserviceSecurityConfiguration extends ResourceServerConfigurerA
         .and()
             .authorizeRequests()
             .antMatchers("/api/profile-info").permitAll()
+            .antMatchers("/api/alipay/app/notify").permitAll()//支付回调地址
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)

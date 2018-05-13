@@ -24,7 +24,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+            defaultZone: http://admin:${jhipster.registry.password}@192.168.1.10:8761/eureka/
 
 spring:
     profiles:
@@ -39,9 +39,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/pay?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://192.168.1.10:3306/pay?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password:
+        password: z7eh9n6tvk1fPUB8
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -79,6 +79,15 @@ spring:
 
 liquibase:
     contexts: dev
+    
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 10000
+                timeout: enabled
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
@@ -98,7 +107,7 @@ liquibase:
 #        key-alias: pay
 # ===================================================================
 server:
-    port: 8088
+    port: 8117
 
 # ===================================================================
 # JHipster specific properties
@@ -180,3 +189,21 @@ oauth2:
 # ===================================================================
 
 application:
+    pay:
+        alipay:
+            domainName: http://app.grjf365.com:9080
+            # 沙箱环境
+            # appid: 2016091000480719
+            # gateway: https://openapi.alipaydev.com/gateway.do
+            # appPrivateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCaYlZgnAQJShiRfLMilS+A5MCs6j6SewwNXK4W3PwBRL1pCTG73muLBJ8NhYnH6iolZnnatQk9ayRHttfdwAQSFvOepGKEsTfu0D5iHlUtatwYErrWBCQexWsDMsyQuP4S1D3h7dcXJLG5NKo+EfiLZn0fCEhN8gTPS+ELVOA6bLuEe5CqrevZQ80SJZo7umCmPG/LTctZe+tdfl4wpG0d8NXMqlTwRFpAwQ/4uW2CBy/VnSaN2mrhua3YmDgwpCwX0ml6Y5fwBtpBCbkz0WgIEULDNO0M/tuug7n7X3MUKM6vmYi76dGpyY8LdvMxPl+lJrJYbgEQUFYxgF5x7RwjAgMBAAECggEAa2jXZ8ekF0Jx7WawyvK4ZhjA5Izkk80ACZvdkxKUUd2dWiKHc4m/kKzaa/Hodio4wGSXis5Ba3XLfAl+Dk21h1BolosP7/nMTF6dyG4KHNsn3afKTXP8HVyEo2kIYfgS7M61byamavegnpZBi4W9Ql8/1gNRKsmjBwZnwBaBGqPONXjq28UUr13+Sr5L5a86g5zg8lBJA4em/YyWt1xwLcANynhzdEtCQm1SyRd4qO0fh//sA6jdhhTeZxg82bS4u5mZnkXrwsxvzeT3aMC1uyJ6dg80k15pMbloujDzuO0Zmm0isWIZ4LBOzlOkH4EDALj5Ut7Lc37sPxW7FlZlYQKBgQDWfF54Q+35WY/Sq+aqWQYOoY6OH2AHH2d8XFHG+WefRf2tod/nd8A4w0wsbGnP65v9MCHkTPhoiirpTpimSGZRcBXpWRZWPuyb9HPPMSPMgMlMeGTM924XkJ8M4SifeTW43Vl/snYvYa4QeOaieqFtuBu99o056XFYau65fReb7QKBgQC4Q/gsHaBkHKXR+H1g09eOWOaKSqfhcidrRRFB9w6WfpZz0HldkPUxbQUEqQWyM67RD0Miyr+NQFhTmPDK9lvjrnut98HCA27OVRfIM4vci6jFIN/UykqmESrYESd0WZHCkl0oPVNSIq4PE16litu5TJ/oY/0KJ2tPn8uNN8A2TwKBgQCqC5QCGSj0RVNHHM4VQ9sPgno4pxtEylsLN04GR/klRyIlpG6VXlVhK0Sa+6CwHQVgp+ZWz8cpalE3Av725fNooUpd5ClXWy/PPPEL1NOi8H+nRtPzxD7eI+RVG7VPKZOz6ploKh6U1gZgPNns+vg8ungUFQJGZZNdG/oDyO8MyQKBgFKi8NZgBwE+s8LhrODSwHXvOpzEdFuvxSvfUqkBskIdzT1tPjCPBNdArCJ15r8PXJQXQyWERbmEJNiA22Q6beVC5+aSGQv4XCYelUbMjym+XFbjsl4MxsOJKWyy7L3KOYtH9o1IS2incuYB6s1U48tLKN+gj+eQ3BhecnwHh6UTAoGAbEM56kqOc6fHEH43DymeigtD254NaxGqwK1JnfAX7kDK1qKMAOACMp8K7CXXNIYvYlBU9wiQyBVflDekaEGyPKk6K//r5HgLJCrirnZYDoig+/ekxPFoCPKm283UxJX1aylj3tUJMWLnY/jTue76RbvHyrCdDCo6zcqLew/ajIQ=
+            # appPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvX3DFs55kxuUvuWDKlYh7CTyeyOH28cC4Sj9d+ODH/PsltjhTZAaq4DPdEtL+2sk2/Q59u942YBd8sBVmc/9F3GvCoVgGzBbNdqSGT8Qpn+i1bcZvahrP2CURA2uzl965IVMqIuiRAogYmWADivfxh/4Hwb/nTEG0mP8ZTDa6Nuv//ze5gIwCFiDx4kNiH4XJza8aFPubEzkUlVVzJeJzMESmCljIWVmePzb2Pa4VcXWtOnlKRZlhO3rqaVyIbZCtomJrWfosY7pouWasgjLYxd0svouL0+PPZmYRYWYXgPzHl3QB5bfE3J5XSbyzpgRWT4gv1nCJnoyG22VqHWbPQIDAQAB
+            # aesKey: 4ac84g0pOnyQFu8F+MAuWA==
+            # 正式环境
+            appid: 2018032102418344
+            gateway: https://openapi.alipay.com/gateway.do
+            appPrivateKey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDA3PtcpUmi0AEQx618Arjgu/ohCS4MrEBwiCWxW93uFah7pQdlENiRhNbAy+w1iu0gSyCy4sFJkScXU8soYiV5Lc5gv7lM1j+e/EDCEFhqSUq8kPDymyNkQBZCPUXy+PnZFpSfkZ5z87asPua1aLbsRM5xqzDO4vvXZ17OH4OvInhH7PLCqZglwcS6iyi8LW7U5dO18qxKYD5BCY5brU+p5uvEhRK8JuT+FhP06tQInhpDDxRsXtehSvy/zvYeOcEV8AvzJEt84VqHKecYkCZrSBn/CIQeR/lePFZLiqnUZWpkQVnRViWbcxxjsJk2rJyCdpDW+34a1kF+g6TesC+BAgMBAAECggEASrTOwUJdVa3Q29kdAE5lotftueI+bjZC99QlFaCKRPEqxEpWpPVzjlqwfRoAs3TPCZVQYzqmuIJ7a/PPXCM4dMojiSJ6+qJ7HnCD/Sgrt3AQfR5/1tn1SZ3xgVMOx2FeFpNCmtTjVfLvraTn5Rlc0gSNG0a+r0UJXJT0Ck/2yF2bX023GDk8omNoEqSZ1DPhs7gn5cym9NckOIx8LSYLi7J1GmhALWr0jNSybZl21mh1zpO9EG+2uF07VS1bSnUedMGtY9Ohf+B2V9MX3mLpE/S+IvPYPjr4bXE8ZXxornawJWP71MYX3yaC0qxCfDaBCo5/2pvZrrf1pL0ju2uz4QKBgQDrdjXEj11fDaJLHww2oZypQY0tLPnxbpgZM0N1lYkKDHgMfixIOe1U0AduY4YLtcbet3R3X1CcIF0tMs/9vgV90nq7hrH1AiPxGXnLMnoAqNkKSivIVjd5o4+usQSYlCjAL0IrQqMj9kGSoBTO/nL7EXrU3Rp9P4cJ/0FPdZzxpQKBgQDRr48kTFgDVBqcGF9/hJMXlcnCh43jpQC/Tm1eKFxLFVCxHs2ANf8N7uq75D9TNLIexkJCK2bH9PrDFRtc5eCicLxEC4vgx83ypxfreq5OBwdvJbnUbUDQ9tIRruLH3mfMok8tqZCIIxopur5eDPlCjryVD0fhY09VipDYYTHnrQKBgQC6SXncmzhaHaVLHbNB/ba+Sjhxh2Xv13nKZj525unW42qPJ7vNINdeBH/8nAzPcu92AVrJnsVd4FUXj13y+MXLeBzWBIkCuMDK3Ub4tmTD5NJiS7A7/cpCGF9y7GYgeQeMlVcadswvhYL3iGMuKS266WduxcdRVFN4W1TGktyqaQKBgQClHD11kpv3OwGdCmAgVC9S8gKmKAElUOdOvJ3H97X89XLNlXixzVLiENBLVUY76ZGcQ/cmjXBoYVIXzQX315dTsbu9RO5G+G4F9WcTaE3aaRSEg8tZJxJTuRbfD7vJMCrB6si4Jv4FBMb0NvTxr/uSWjzKjvbF1mJA9FRr3dTjHQKBgEP/OyVq77Ws0Hs3Q1MkrueRISD8sNjqj0IIPBilqcIWAfDhFN39rFSF0V1V8cSmbOicBex2o8sgr8J379ZUtS/Dtrq8GRTrkEkc5tZW5nI25SytKIG8M35JxV2ZjCdzUDw8iFbfHgruVC8AOa8k2jjfuaQ/OEni1KGshilhSkC6
+            appPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxGgcgzQSPV6Td1brra08f8qjYvciXLlHA9XJQ9fQur2XJxsjAivvaUluXSi0I+kf+RsNUm0CrHHfSwX8uzmBHzLNWXyJ1kVUqhMyFwAIlfx75K011FeNmsgJ8sEv0JI0aG5QP+3cFIPsIsPY5fGmPhPvPYR4ysRzzZeqzSZ5kf+20g2VLXlwG0lELfJ/hgxR0i4pBPBjH82sviGP7ffUKB0tk06Qv79+zVYXdl4hrxEblB0t4Kg4xYOlSK2XBrw30gY85vCsmI6hW4Zy3xXIQodYU75YYi1FFg5utjZtc4O76CV44jUXBe8F4nk/nX4/ezJHf7VsbZO/jBRfUEin/wIDAQAB
+            aesKey: 7Ic4L+HSUQQz2FWdyYsqcQ==
+
+
+    

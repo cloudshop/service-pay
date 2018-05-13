@@ -10,5 +10,86 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
+	
+	private final Pay pay = new Pay();
+	
+	public Pay getPay() {
+		return pay;
+	}
 
+	public static class Pay {
+		
+		public final Alipay alipay = new Alipay();
+		
+		public Alipay getAlipay() {
+			return alipay;
+		}
+
+
+		public static class Alipay {
+			
+			private String appid;
+			
+			private String appPrivateKey;
+			
+			private String appPublicKey;
+			
+			private String aesKey;
+			
+			private String domainName;
+			
+			private String gateway;
+
+			public String getDomainName() {
+				return domainName;
+			}
+
+			public void setDomainName(String domainName) {
+				this.domainName = domainName;
+			}
+
+			public String getAesKey() {
+				return aesKey;
+			}
+
+			public void setAesKey(String aesKey) {
+				this.aesKey = aesKey;
+			}
+
+			public String getAppid() {
+				return appid;
+			}
+
+			public String getAppPrivateKey() {
+				return appPrivateKey;
+			}
+
+			public String getAppPublicKey() {
+				return appPublicKey;
+			}
+
+			public void setAppid(String appid) {
+				this.appid = appid;
+			}
+
+			public void setAppPrivateKey(String appPrivateKey) {
+				this.appPrivateKey = appPrivateKey;
+			}
+
+			public void setAppPublicKey(String appPublicKey) {
+				this.appPublicKey = appPublicKey;
+			}
+
+			public String getGateway() {
+				return gateway;
+			}
+
+			public void setGateway(String gateway) {
+				this.gateway = gateway;
+			}
+			
+		}
+		
+	}
+	
 }
