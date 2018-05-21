@@ -1,0 +1,12 @@
+<xml>
+   <appid>wxf177c6755716fa32</appid>
+   <mch_id>1500998061</mch_id>
+   <nonce_str>5K8264ILTKCH16CQ2502SI8ZNMTM67VS</nonce_str>
+   <attach>支付测试</attach>
+   <body>APP支付测试</body>
+   <out_trade_no>123459</out_trade_no>
+   <total_fee>1</total_fee>
+   <trade_type>APP</trade_type>
+   <notify_url>www.baidu.com</notify_url>
+   <sign>9BB104ACFF2D528258AB4355AFE2C880</sign>
+</xml>

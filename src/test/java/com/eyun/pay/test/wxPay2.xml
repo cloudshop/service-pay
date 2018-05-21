@@ -1,0 +1,9 @@
+<xml>
+   <appid>wxf177c6755716fa32</appid>
+   <nonce_str>GUBXaWMNcmio22v6</nonce_str>
+   <package>Sign=WXPay</package>
+   <partnerid>1500998061</partnerid>
+   <prepayid>wx141619251008134bfcca995d1251431738</prepayid>
+   <timestamp>1526286100364</timestamp>
+   <sign>73CEB533C7096FF947CDF036F5C20122</sign>
+</xml>
