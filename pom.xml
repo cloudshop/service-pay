@@ -358,11 +358,11 @@
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
         
-        <dependency>
-            <groupId>taobao.com</groupId>
-            <artifactId>alipay</artifactId>
-            <version>3.0.0</version>
-        </dependency>
+		<dependency>
+		    <groupId>com.alipay.sdk</groupId>
+		    <artifactId>alipay-sdk-java</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.wxpay</groupId>
 			<artifactId>wxpay-sdk</artifactId>
@@ -657,6 +657,10 @@
 		<repository>
 			<id>eyun-nexus</id>
 			<url>http://dev.eyun.online:8081/repository/maven-releases</url>
+		</repository>
+		<repository>
+			<id>maven-release</id>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 	</repositories>
     
