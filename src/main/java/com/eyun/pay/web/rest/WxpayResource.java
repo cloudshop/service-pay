@@ -66,14 +66,13 @@ public class WxpayResource {
 
 		String out_trade_no = hehe + "wxpay";
 		String total_fee = "1";
-		
 		String user_id = "1";
 		String coupon_id = "7";
 
 		String attach = user_id + "," + coupon_id;
 		WXMyConfigUtil config = new WXMyConfigUtil();
 		// String spbill_create_ip = GetIPAddrUtil.getIpAddr(req);
-		String spbill_create_ip = "10.4.21.78";
+		String spbill_create_ip = "47.106.157.29";
 		System.err.println(spbill_create_ip);
 		Map<String, String> result = wxPayService.dounifiedOrder(attach, out_trade_no, total_fee, spbill_create_ip, 1);
 		String nonce_str = (String) result.get("nonce_str");
