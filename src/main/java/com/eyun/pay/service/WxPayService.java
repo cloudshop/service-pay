@@ -95,7 +95,7 @@ public class WxPayService {
         data.put("total_fee", total_fee);  
         data.put("spbill_create_ip",spbill_create_ip);  
         //异步通知地址（请注意必须是外网）  
-        data.put("notify_url", "http://1y8723.51mypc.cn:21813/api/wxpay/notify");  
+        data.put("notify_url", "http://app.grjf365.com:9080/pay/api/wxpay/notify");  
    
         data.put("trade_type", "APP");  
         data.put("attach", attach);  
