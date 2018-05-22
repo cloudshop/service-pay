@@ -7,18 +7,15 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 import com.eyun.pay.service.OrderService;
 import com.eyun.pay.service.WxPayService;
-import com.eyun.pay.service.dto.PayNotifyDTO;
 import com.eyun.pay.utils.WXMyConfigUtil;
 import com.eyun.pay.utils.WxPayUtil;
 
@@ -44,33 +40,14 @@ public class WxpayResource {
 
 	private final Logger logger = LoggerFactory.getLogger(WxpayResource.class);
 
-	@Value("${application.pay.alipay.domainName}")
-	private String DOMAIN_NAME;
-
-	@Value("${application.pay.alipay.appid}")
-	private String APP_ID;
-
-	@Value("${application.pay.alipay.appPrivateKey}")
-	private String APP_PRIVATE_KEY;
-
-	private String CHARSET = "utf-8";
-
-	@Value("${application.pay.alipay.appPublicKey}")
-	private String ALIPAY_PUBLIC_KEY;
-
 	@Autowired
 	private OrderService orderService;
 
 	@Autowired
 	private WxPayService wxPayService;
 
-	@Value("${application.pay.alipay.aesKey}")
-	private String ENCRYPT_KEY;
-
-	private String NCRYPT_TYPE = "AES";
-
 	@ApiOperation(value = "创建微信支付预支付订单")
-	@PostMapping("/wxpay/app/preorder")
+	@PostMapping("/wxpay/preorder")
 	public String prePay(
 			/*
 			 * @RequestParam(required = true,value = "user_id")String user_id,

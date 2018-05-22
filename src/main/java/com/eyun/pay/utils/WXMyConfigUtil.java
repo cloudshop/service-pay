@@ -11,7 +11,7 @@ public class WXMyConfigUtil implements WXPayConfig {
     private byte[] certData;  
   
     public WXMyConfigUtil() throws Exception {  
-        String certPath = "证书地址";//从微信商户平台下载的安全证书存放的目录  
+        String certPath = "cert";//从微信商户平台下载的安全证书存放的目录  
   
         File file = new File(certPath);  
         InputStream certStream = new FileInputStream(file);  
@@ -22,18 +22,18 @@ public class WXMyConfigUtil implements WXPayConfig {
   
     @Override  
     public String getAppID() {  
-        return "填写你的appid";  
+        return "wxf177c6755716fa32";  
     }  
   
     //parnerid  
     @Override  
     public String getMchID() {  
-        return "填写商户id";  
+        return "1500998061";  
     }  
   
     @Override  
     public String getKey() {  
-        return "填写api密钥";  
+        return "6H7vSZjhOQEhjsCVA9b2XKqjooTWBVZr";  
     }  
   
     @Override  
