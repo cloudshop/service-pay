@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.eyun.pay.utils.WXMyConfigUtil;
 import com.eyun.pay.utils.WxPayUtil;
+import com.eyun.pay.web.rest.WxpayResource;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayUtil;
 
@@ -104,7 +105,7 @@ public class WxPayService {
         StringBuffer url= new StringBuffer();  
         try {  
             Map<String, String> resp = wxpay.unifiedOrder(data);  
-			logger.debug(resp);  
+         	logger.info("resp", resp);
             String returnCode = resp.get("return_code");    //获取返回码  
             String returnMsg = resp.get("return_msg");  
   
