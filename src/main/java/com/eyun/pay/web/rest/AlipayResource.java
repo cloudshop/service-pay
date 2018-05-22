@@ -168,6 +168,7 @@ public class AlipayResource {
 				payDTO1.setPayType(1);
 				payDTO1.setPayNo(params.get("trade_no"));
 				orderService.faceOrderNotify(payDTO1);
+				return "success";
 			default:
 				return "failure";
 			}
