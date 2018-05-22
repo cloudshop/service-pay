@@ -11,13 +11,13 @@ public class WXMyConfigUtil implements WXPayConfig {
     private byte[] certData;  
   
     public WXMyConfigUtil() throws Exception {  
-        String certPath = "cert/apiclient_cert.pem";//从微信商户平台下载的安全证书存放的目录  
-  
-        File file = new File(certPath);  
-        InputStream certStream = new FileInputStream(file);  
-        this.certData = new byte[(int) file.length()];  
-        certStream.read(this.certData);  
-        certStream.close();  
+//        String certPath = "cert/apiclient_cert.pem";//从微信商户平台下载的安全证书存放的目录  
+//  
+//        File file = new File(certPath);  
+//        InputStream certStream = new FileInputStream(file);  
+//        this.certData = new byte[(int) file.length()];  
+//        certStream.read(this.certData);  
+//        certStream.close();  
     }  
   
     @Override  
