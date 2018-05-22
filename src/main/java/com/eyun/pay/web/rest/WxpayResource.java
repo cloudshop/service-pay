@@ -66,6 +66,7 @@ public class WxpayResource {
 
 		String out_trade_no = hehe + "wxpay";
 		String total_fee = "1";
+		
 		String user_id = "1";
 		String coupon_id = "7";
 
