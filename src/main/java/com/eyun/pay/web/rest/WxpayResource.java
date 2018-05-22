@@ -73,7 +73,6 @@ public class WxpayResource {
 		WXMyConfigUtil config = new WXMyConfigUtil();
 		// String spbill_create_ip = GetIPAddrUtil.getIpAddr(req);
 		String spbill_create_ip = "47.106.157.29";
-		System.err.println(spbill_create_ip);
 		Map<String, String> result = wxPayService.dounifiedOrder(attach, out_trade_no, total_fee, spbill_create_ip, 1);
 		String nonce_str = (String) result.get("nonce_str");
 		String prepay_id = (String) result.get("prepay_id");
@@ -107,7 +106,7 @@ public class WxpayResource {
 	@Timed
 	public String WXPayBack(HttpServletRequest request, HttpServletResponse response) {
 		String resXml = "";
-		System.err.println("进入异步通知");
+		logger.debug("进入异步通知");
 		try {
 			//
 			InputStream is = request.getInputStream();
@@ -129,7 +128,7 @@ public class WxpayResource {
 				}
 			}
 			resXml = sb.toString();
-			System.err.println(resXml);
+			logger.debug(resXml);
 			String result = wxPayService.payBack(resXml);
 			// return "<xml><return_code><![CDATA[SUCCESS]]></return_code>
 			// <return_msg><![CDATA[OK]]></return_msg></xml>";

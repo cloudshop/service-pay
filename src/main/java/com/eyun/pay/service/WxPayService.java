@@ -104,14 +104,14 @@ public class WxPayService {
         StringBuffer url= new StringBuffer();  
         try {  
             Map<String, String> resp = wxpay.unifiedOrder(data);  
-            System.out.println(resp);  
+			logger.debug(resp);  
             String returnCode = resp.get("return_code");    //获取返回码  
             String returnMsg = resp.get("return_msg");  
   
             if("SUCCESS".equals(returnCode)){       //若返回码为SUCCESS，则会返回一个result_code,再对该result_code进行判断  
                 String resultCode = (String)resp.get("result_code");  
                 String errCodeDes = (String)resp.get("err_code_des");  
-                System.out.print(errCodeDes);  
+    			    logger.debug(errCodeDes);  
                 if("SUCCESS".equals(resultCode)){  
                     //获取预支付交易回话标志  
                     Map<String,String> map = new HashMap<>();  
@@ -133,8 +133,6 @@ public class WxPayService {
             }  
   
         } catch (Exception e) {  
-            System.out.println("aaaaaaaaaaaaa");  
-            System.out.println(e);  
             logger.info(e.getMessage());  
         }  
         return fail;  
