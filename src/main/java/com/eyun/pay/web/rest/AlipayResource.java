@@ -162,6 +162,12 @@ public class AlipayResource {
 				payDTO2.setPayNo(params.get("trade_no"));
 				orderService.leaguerOrderNotify2(payDTO2);
 				return "success";
+			case "faceTrans"://线下支付宝支付
+				PayNotifyDTO payDTO1 = new PayNotifyDTO();
+				payDTO1.setOrderNo(params.get("out_trade_no"));
+				payDTO1.setPayType(1);
+				payDTO1.setPayNo(params.get("trade_no"));
+				orderService.faceOrderNotify(payDTO1);
 			default:
 				return "failure";
 			}
