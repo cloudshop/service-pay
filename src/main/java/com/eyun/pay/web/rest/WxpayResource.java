@@ -88,7 +88,7 @@ public class WxpayResource {
 	 * 订单支付异步通知
 	 */
 	@ApiOperation(value = "手机订单支付完成后回调")
-	@PostMapping("/wxpay/notify")
+	@PostMapping("/wxpay/app/notify")
 	@Timed
 	public String WXPayBack(HttpServletRequest request, HttpServletResponse response) {
 		String resXml = "";

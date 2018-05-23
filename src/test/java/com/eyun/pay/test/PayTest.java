@@ -1,5 +1,6 @@
 package com.eyun.pay.test;
 
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
@@ -408,6 +409,14 @@ public class PayTest {
 		//request.setNotifyUrl("");
 		AlipayTradeCancelResponse response = alipayClient.execute(request);//通过alipayClient调用API，获得对应的response类
 		System.out.print(response.getBody());
+	}
+	
+	@Test
+	public void jisuan() {
+		BigDecimal bigDecimal = new BigDecimal("100.01");
+		BigDecimal multiply = bigDecimal.multiply(new BigDecimal("100"));
+		System.out.println(multiply.toString());
+		System.out.println(multiply.intValue()+"");
 	}
 
 }
