@@ -59,7 +59,7 @@ public class WxpayResource {
 			 * @RequestParam(required = true,value = "total_fee")String total_fee,
 			 */
 			HttpServletRequest req, HttpServletResponse response) throws Exception {
-		logger.debug("进入微信支付申请");
+		logger.info("进入微信支付申请");
 		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");// 可以方便地修改日期格式
 		String hehe = dateFormat.format(now);
@@ -93,7 +93,7 @@ public class WxpayResource {
 		String resultString = "{\"appid\":\"" + config.getAppID() + "\",\"partnerid\":\"" + config.getMchID()
 				+ "\",\"package\":\"Sign=WXPay\"," + "\"noncestr\":\"" + nonce_str + "\",\"timestamp\":" + timestamp
 				+ "," + "\"prepayid\":\"" + prepay_id + "\",\"sign\":\"" + sign + "\"}";
-		logger.debug(resultString);
+		logger.info(resultString);
 		
         return resultString;    //给前端app返回此字符串，再调用前端的微信sdk引起微信支付  
 	}
@@ -106,7 +106,7 @@ public class WxpayResource {
 	@Timed
 	public String WXPayBack(HttpServletRequest request, HttpServletResponse response) {
 		String resXml = "";
-		logger.debug("进入异步通知");
+		logger.info("进入异步通知");
 		try {
 			//
 			InputStream is = request.getInputStream();
@@ -128,7 +128,7 @@ public class WxpayResource {
 				}
 			}
 			resXml = sb.toString();
-			logger.debug(resXml);
+			logger.info(resXml);
 			String result = wxPayService.payBack(resXml);
 			// return "<xml><return_code><![CDATA[SUCCESS]]></return_code>
 			// <return_msg><![CDATA[OK]]></return_msg></xml>";
@@ -140,6 +140,50 @@ public class WxpayResource {
 			return result;
 		}
 	}
+	
+	/**
+	 * 订单扫描支付异步通知
+	 */
+	@ApiOperation(value = "手机扫描支付完成后回调")
+	@PostMapping("/wxpay/scan_notify")
+	@Timed
+	public String WXScanPayBack(HttpServletRequest request, HttpServletResponse response) {
+		String resXml = "";
+		logger.info("进入扫描支付异步通知");
+		try {
+			//
+			InputStream is = request.getInputStream();
+			// 将InputStream转换成String
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					sb.append(line + "\n");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			resXml = sb.toString();
+			logger.info(resXml);
+			String result = wxPayService.payBack(resXml);
+			// return "<xml><return_code><![CDATA[SUCCESS]]></return_code>
+			// <return_msg><![CDATA[OK]]></return_msg></xml>";
+			return result;
+		} catch (Exception e) {
+			logger.error("手机支付回调通知失败", e);
+			String result = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>"
+					+ "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
+			return result;
+		}
+	}
+
 
 	/**
 	 * 查询微信订单
