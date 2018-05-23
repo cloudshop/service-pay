@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.eyun.pay.service.dto.PayNotifyDTO;
 import com.eyun.pay.utils.WXMyConfigUtil;
 import com.eyun.pay.utils.WxPayUtil;
 import com.eyun.pay.web.rest.WxpayResource;
@@ -20,6 +22,9 @@ import com.github.wxpay.sdk.WXPayUtil;
 public class WxPayService {
     private final Logger logger = LoggerFactory.getLogger(WxPayService.class);
 
+    @Autowired
+    private OrderService orderService;
+    
     /** 
      *  支付结果通知 
      * @param notifyData    异步通知后的XML数据 
@@ -43,7 +48,8 @@ public class WxPayService {
                 // 进行处理。  
                 // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功  
                 String  return_code = notifyMap.get("return_code");//状态  
-                String out_trade_no = notifyMap.get("out_trade_no");//订单号  
+                String out_trade_no = notifyMap.get("out_trade_no");//商户系统订单号  
+                String transaction_id = notifyMap.get("transaction_id");//微信支付订单号  
    
                 if(return_code.equals("SUCCESS")){  
                     if(out_trade_no!=null){  
@@ -55,7 +61,41 @@ public class WxPayService {
                          * 
                          */  
                         
-                        System.err.println(">>>>>支付成功");  
+                        System.err.println(">>>>>支付成功"); 
+                        
+                        String attach = notifyMap.get("attach");
+                        switch (attach) {
+                        case "deposit": //充值订单
+            				return orderService.depositNotify(out_trade_no);
+            			case "product": //商品订单
+            				PayNotifyDTO payNotifyDTO = new PayNotifyDTO();
+            				payNotifyDTO.setOrderNo(out_trade_no);
+            				payNotifyDTO.setPayType(1);
+            				payNotifyDTO.setPayNo(transaction_id);
+            				orderService.proOrderNotify(payNotifyDTO);
+            				break;
+            			case "leaguer": //增值商家
+            				PayNotifyDTO payDTO = new PayNotifyDTO();
+            				payDTO.setOrderNo(out_trade_no);
+            				payDTO.setPayType(1);
+            				payDTO.setPayNo(transaction_id);
+            				orderService.leaguerOrderNotify(payDTO);
+            				break;
+            			case "leaguer2": //服务商
+            				PayNotifyDTO payDTO2 = new PayNotifyDTO();
+            				payDTO2.setOrderNo(out_trade_no);
+            				payDTO2.setPayType(1);
+            				payDTO2.setPayNo(transaction_id);
+            				orderService.leaguerOrderNotify2(payDTO2);
+            				break;
+            			case "faceTrans":
+            				PayNotifyDTO payDTO1 = new PayNotifyDTO();
+            				payDTO1.setOrderNo(out_trade_no);
+            				payDTO1.setPayType(1);
+            				payDTO1.setPayNo(transaction_id);
+            				orderService.faceOrderNotify(payDTO1);
+            				break;
+            			}
    
                         logger.info("微信手机支付回调成功订单号:{}",out_trade_no);  
                         xmlBack = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>" + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";  
@@ -96,7 +136,7 @@ public class WxPayService {
         data.put("total_fee", total_fee);  
         data.put("spbill_create_ip",spbill_create_ip);  
         //异步通知地址（请注意必须是外网）  
-        data.put("notify_url", "http://app.grjf365.com:9080/pay/api/wxpay/notify");  
+        data.put("notify_url", "http://app.grjf365.com:9080/pay/api/wxpay/app/notify");  
    
         data.put("trade_type", "APP");  
         data.put("attach", attach);  

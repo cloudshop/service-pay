@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -49,27 +50,12 @@ public class WxpayResource {
 	@ApiOperation(value = "创建微信支付预支付订单")
 	@PostMapping("/wxpay/preorder")
 	public String prePay(
-			/*
-			 * @RequestParam(required = true,value = "user_id")String user_id,
-			 * 
-			 * @RequestParam(required = true,value = "coupon_id")String coupon_id,
-			 * 
-			 * @RequestParam(required = true,value = "out_trade_no")String out_trade_no,
-			 * 
-			 * @RequestParam(required = true,value = "total_fee")String total_fee,
-			 */
+			@RequestParam(required = true,value = "out_trade_no")String out_trade_no,
+			@RequestParam(required = true,value = "total_fee")String total_fee,
+			@RequestParam(required = true,value = "attach")String attach,
 			HttpServletRequest req, HttpServletResponse response) throws Exception {
 		logger.debug("进入微信支付申请");
-		Date now = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");// 可以方便地修改日期格式
-		String hehe = dateFormat.format(now);
 
-		String out_trade_no = hehe + "wxpay";
-		String total_fee = "1";
-		String user_id = "1";
-		String coupon_id = "7";
-
-		String attach = user_id + "," + coupon_id;
 		WXMyConfigUtil config = new WXMyConfigUtil();
 		// String spbill_create_ip = GetIPAddrUtil.getIpAddr(req);
 		String spbill_create_ip = "47.106.157.29";
