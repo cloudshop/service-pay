@@ -107,14 +107,6 @@ public class PayTest {
 		private String trade_type;
 		private String prepay_id;
 
-		@Override
-		public String toString() {
-			return "wxReturn [return_code=" + return_code + ", return_msg=" + return_msg + ", appid=" + appid
-					+ ", mch_id=" + mch_id + ", device_info=" + device_info + ", nonce_str=" + nonce_str + ", sign="
-					+ sign + ", result_code=" + result_code + ", err_code=" + err_code + ", err_code_des="
-					+ err_code_des + ", trade_type=" + trade_type + ", prepay_id=" + prepay_id + "]";
-		}
-
 		public String getReturn_code() {
 			return return_code;
 		}
@@ -309,23 +301,23 @@ public class PayTest {
 	@Test
 	public void fun3() {
 		try {
-//			String str1 = "appid=wxf177c6755716fa32"
-//					+ "&attach=支付测试"
-//					+ "&body=APP支付测试"
-//					+ "&mch_id=1500998061"
-//					+ "&nonce_str=5K8264ILTKCH16CQ2502SI8ZNMTM67VS"
-//					+ "&notify_url=www.baidu.com"
-//					+ "&out_trade_no=123459"
-//					+ "&total_fee=1"
-//					+ "&trade_type=APP"
-//					+ "&key=6H7vSZjhOQEhjsCVA9b2XKqjooTWBVZr";
 			String str1 = "appid=wxf177c6755716fa32"
+					+ "&attach=支付测试"
+					+ "&body=APP支付测试"
+					+ "&mch_id=1500998061"
 					+ "&nonce_str=5K8264ILTKCH16CQ2502SI8ZNMTM67VS"
-					+ "&package=Sign=WXPay"
-					+ "&partnerid=1500998061"
-					+ "&prepayid=wx211510508158933b899a979b3676397794"
-					+ "&timestamp="+System.currentTimeMillis()
+					+ "&notify_url=www.baidu.com"
+					+ "&out_trade_no=123459"
+					+ "&total_fee=1"
+					+ "&trade_type=APP"
 					+ "&key=6H7vSZjhOQEhjsCVA9b2XKqjooTWBVZr";
+//			String str1 = "appid=wxf177c6755716fa32"
+//					+ "&nonce_str=GUBXaWMNcmio22v6"
+//					+ "&package=Sign=WXPay"
+//					+ "&partnerid=1500998061"
+//					+ "&prepayid=wx141619251008134bfcca995d1251431738"
+//					+ "&timestamp="+System.currentTimeMillis()
+//					+ "&key=6H7vSZjhOQEhjsCVA9b2XKqjooTWBVZr";
 			System.out.println(str1);
 			byte[] bytes = str1.getBytes();
 			char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -370,7 +362,6 @@ public class PayTest {
 		XStream xStream = new XStream();
 		xStream.alias("xml", wxReturn.class);
 		wxReturn wr = (wxReturn)xStream.fromXML(resp.getBody());
-		System.out.println(wr.toString());
 	}
 	
 	@Test
@@ -394,7 +385,7 @@ public class PayTest {
 		AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA2"); //获得初始化的AlipayClient
 		AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();//创建API对应的request类
 		request.setBizContent("{" +
-		"    \"out_trade_no\":\"12018050718318305\"," +
+		"    \"out_trade_no\":\"12018050718318303\"," +
 		"    \"total_amount\":\"0.01\"," +
 		"    \"subject\":\"Iphone6 16G\"," +
 		"    \"store_id\":\"NJ_001\"," +
@@ -412,7 +403,7 @@ public class PayTest {
 		AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA2"); //获得初始化的AlipayClient
 		AlipayTradeCancelRequest request = new AlipayTradeCancelRequest();//创建API对应的request类
 		request.setBizContent("{" +
-		"    \"out_trade_no\":\"12018050718318305\"," +
+		"    \"out_trade_no\":\"12018050718318303\"," +
 		"    \"trade_no\":\"\"}"); //设置业务参数
 		//request.setNotifyUrl("");
 		AlipayTradeCancelResponse response = alipayClient.execute(request);//通过alipayClient调用API，获得对应的response类
